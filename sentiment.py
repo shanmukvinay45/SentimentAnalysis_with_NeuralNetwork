@@ -3,7 +3,6 @@ import numpy as np
 import re
 import nltk
 from nltk.corpus import stopwords
-from numpy import array
 import tensorflow as tf
 from keras.preprocessing.text import one_hot, Tokenizer
 from keras.models import Sequential
@@ -11,18 +10,12 @@ from keras.layers import Activation, Dropout, Dense, Flatten, GlobalMaxPooling1D
 from sklearn.model_selection import train_test_split
 from keras.preprocessing.sequence import pad_sequences
 import gensim.downloader as api
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Load dataset
 movie_reviews = pd.read_csv("C:/Users/Rasagna/Downloads/a1_IMDB_Dataset (1).csv")
 
 # Check for null values
 assert not movie_reviews.isnull().values.any(), "Dataset contains null values!"
-
-# Visualize data distribution
-sns.countplot(x='sentiment', data=movie_reviews)
-plt.show()
 
 # Data Preprocessing
 
@@ -81,29 +74,12 @@ snn_model = Sequential([
 snn_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
 
 # Train Simple Neural Network
-snn_model_history = snn_model.fit(X_train, y_train, batch_size=128, epochs=10, verbose=1, validation_split=0.2)
+snn_model.fit(X_train, y_train, batch_size=128, epochs=10, verbose=1, validation_split=0.2)
 
 # Evaluate Simple Neural Network
 score_snn = snn_model.evaluate(X_test, y_test, verbose=1)
 print("SNN Test Score:", score_snn[0])
 print("SNN Test Accuracy:", score_snn[1])
-
-# Plot SNN training history
-plt.plot(snn_model_history.history['acc'])
-plt.plot(snn_model_history.history['val_acc'])
-plt.title('SNN Model Accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.show()
-
-plt.plot(snn_model_history.history['loss'])
-plt.plot(snn_model_history.history['val_loss'])
-plt.title('SNN Model Loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.show()
 
 # Convolutional Neural Network
 cnn_model = Sequential([
@@ -115,29 +91,12 @@ cnn_model = Sequential([
 cnn_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
 
 # Train Convolutional Neural Network
-cnn_model_history = cnn_model.fit(X_train, y_train, batch_size=128, epochs=6, verbose=1, validation_split=0.2)
+cnn_model.fit(X_train, y_train, batch_size=128, epochs=6, verbose=1, validation_split=0.2)
 
 # Evaluate Convolutional Neural Network
 score_cnn = cnn_model.evaluate(X_test, y_test, verbose=1)
 print("CNN Test Score:", score_cnn[0])
 print("CNN Test Accuracy:", score_cnn[1])
-
-# Plot CNN training history
-plt.plot(cnn_model_history.history['acc'])
-plt.plot(cnn_model_history.history['val_acc'])
-plt.title('CNN Model Accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.show()
-
-plt.plot(cnn_model_history.history['loss'])
-plt.plot(cnn_model_history.history['val_loss'])
-plt.title('CNN Model Loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.show()
 
 # LSTM Model
 lstm_model = Sequential([
@@ -148,29 +107,12 @@ lstm_model = Sequential([
 lstm_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['acc'])
 
 # Train LSTM Model
-lstm_model_history = lstm_model.fit(X_train, y_train, batch_size=128, epochs=6, verbose=1, validation_split=0.2)
+lstm_model.fit(X_train, y_train, batch_size=128, epochs=6, verbose=1, validation_split=0.2)
 
 # Evaluate LSTM Model
 score_lstm = lstm_model.evaluate(X_test, y_test, verbose=1)
 print("LSTM Test Score:", score_lstm[0])
 print("LSTM Test Accuracy:", score_lstm[1])
-
-# Plot LSTM training history
-plt.plot(lstm_model_history.history['acc'])
-plt.plot(lstm_model_history.history['val_acc'])
-plt.title('LSTM Model Accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.show()
-
-plt.plot(lstm_model_history.history['loss'])
-plt.plot(lstm_model_history.history['val_loss'])
-plt.title('LSTM Model Loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.show()
 
 # Streamlit App
 import streamlit as st
